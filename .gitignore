@@ -1,0 +1,7 @@
+﻿.vs
+PurchasePrice/bin
+PurchasePrice/obj
+PurchasePrices.Tests/bin
+PurchasePrices.Tests/obj
+PurchasePrice.Domain/bin
+PurchasePrice.Domain/obj
