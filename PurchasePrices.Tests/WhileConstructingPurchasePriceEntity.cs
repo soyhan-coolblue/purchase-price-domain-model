@@ -74,7 +74,7 @@ namespace WhenConstructingPurchasePriceEntity
                 
                 Action action = () =>
                 {
-                    var purchasePrice = new PurchasePrice(1, PriceType.Temporary, 1, 1, startDate, null);
+                    var purchasePrice = new PurchasePrice(1, PriceType.Temporary, 1, 1, startDate, DateTime.Today.AddDays(20));
                 };
 
                 action.Should().ThrowExactly<ArgumentOutOfRangeException>();

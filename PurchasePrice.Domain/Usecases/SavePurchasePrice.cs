@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using PurchasePrices.Domain.Entities;
@@ -17,14 +18,16 @@ namespace PurchasePrices.Domain.Usecases
 
         public async Task Invoke(PurchasePrice purchasePrice)
         {
-            var purchasePrices =
-                await _purchasePriceRepository.GetFor(purchasePrice.SupplierId, purchasePrice.ProductId);
+            var existingPrices
+                = await _purchasePriceRepository.GetFor(purchasePrice.SupplierId, purchasePrice.ProductId);
 
-            var upcomingTemporaryPurchasePrice =
-                purchasePrices.SingleOrDefault(a => a.IsUpcoming && a.PriceType == PriceType.Temporary);
+            var existingUpcomingTemporaryPrice =
+                existingPrices.FirstOrDefault(a => a.IsUpcoming && a.PriceType == PriceType.Temporary);
 
-            if (upcomingTemporaryPurchasePrice != null)
-                await _purchasePriceRepository.Delete(upcomingTemporaryPurchasePrice);
+            if (existingUpcomingTemporaryPrice != null)
+            {
+                await _purchasePriceRepository.Delete(existingUpcomingTemporaryPrice);
+            }
 
             await _purchasePriceRepository.Save(purchasePrice);
         }
